@@ -1,25 +1,30 @@
 {% extends 'main/default.html' %}
 
+
 {% block title %}
-{{ item.name }}
+Orders
 {% endblock title %}
 
 {% block content %}
-<h1>Item: {{ item.name }}</h1>
-<p>Description: {{ item.description }}</p>
-<p>Price: {{ item.price }} {{ item.currency }}</p>
-<button class="btn btn-secondary" id="buy-button">Buy</button>
+{% for order in orders %}
+<h1>Order: {{ order.pk }}</h1>
+{% for item in order.items.all %}
+<p>Item: {{ item.name }} Price: {{ item.price }} {{ item.currency }}</p>
+{% endfor %}
+<h1>Total price: {{ order.total_price }} {{ order.currency }}</h1>
+<button class="btn btn-secondary" id="buy-button-{{ order.pk }}">Buy</button>
 <script src="https://js.stripe.com/v3/"></script>
 <script type="text/javascript">
       var stripe = Stripe('pk_test_51MaQIsCGccPEKImW8EJlh4D3wSLRhAmsVabUOai4SyO8GCtRkxsZjsZeBq9mCmS3fIthPbpMNuCaEREQKbcbWEKB00dtExZxI8');
-      var buyButton = document.getElementById('buy-button');
+      var buyButton = document.getElementById('buy-button-{{ order.pk }}');
       var x;
       buyButton.addEventListener('click', function() {
-        fetch('/buy/{{ item.pk }}', {method: 'GET'})
+        fetch('/buy/{{ order.pk }}', {method: 'GET'})
         .then(response => response.json())
         .then(session => stripe.redirectToCheckout({ sessionId: session.id }))
       });
 
 </script>
+{% endfor %}
 {% endblock content %}
 
