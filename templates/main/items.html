@@ -7,7 +7,7 @@ Items
 
 {% block content %}
 {% for item in items %}
-<h1>Item: {{ item.name }}</h1>
+<h1>Item {{ item.pk }}: {{ item.name }}</h1>
 <p>Description: {{ item.description }}</p>
 <p>Price: {{ item.price }} {{ item.currency }}</p>
 <button class="btn btn-secondary" id="buy-button-{{ item.pk }}">Buy</button>

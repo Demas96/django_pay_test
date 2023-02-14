@@ -45,7 +45,7 @@ class Discount(models.Model):
                             validators=[MinValueValidator(0), MaxValueValidator(1)])
 
     def __str__(self):
-        return f'{self.discount}'
+        return f'{self.discount * 100}%'
 
 
 class Tax(models.Model):
@@ -54,4 +54,4 @@ class Tax(models.Model):
                                  blank=True,
                                  validators=[MinValueValidator(0), MaxValueValidator(1)])
     def __str__(self):
-        return f'{self.tax}'
+        return f'{self.tax * 100}%'
